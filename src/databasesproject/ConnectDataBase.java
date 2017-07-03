@@ -17,30 +17,30 @@ import java.sql.SQLException;
 /**
  * Class for communication with remote database server.
  */
-public class ConnectDataBase implements Server{
+public class ConnectDataBase implements Server {
     private Connection connection;
     private String host;
     private String uName;
     private String uPass;
     private List<String> updateTriggerDML;
     private List<String> executeTriggerDDL;
-    
+
     /**
      * Constructor. Initializes filter lists for DML and DDL methods.
      * The lists are used to distinguish between executeUpdate and executeQuery methods.
      */
-    public ConnectDataBase(){
+    public ConnectDataBase() {
         this.connector();
         this.updateTriggerDML = new ArrayList();
         this.updateTriggerDML.add("INSERT");
         this.updateTriggerDML.add("UPDATE");
         this.updateTriggerDML.add("DELETE");
-        
+
         this.executeTriggerDDL = new ArrayList();
         this.executeTriggerDDL.add("SHOW");
         this.executeTriggerDDL.add("DESCRIBE");
     }
-    
+
     /**
      * Connects to remote SQL server.
      * Reads login credentials from conf.txt file.
@@ -83,6 +83,7 @@ public class ConnectDataBase implements Server{
 
     /**
      * Sends DDL query to remote SQL server.
+     *
      * @param query the query.
      * @return the response.
      */
@@ -90,13 +91,13 @@ public class ConnectDataBase implements Server{
         String result;
         String temp;
         String triggerQuery = query.split(" ")[0].toUpperCase();
-        
+
         try {
             Statement st = this.connection.createStatement();
-            
+
             // check if the first word 
-            if(this.executeTriggerDDL.contains(triggerQuery)){
-                
+            if (this.executeTriggerDDL.contains(triggerQuery)) {
+
                 // query prints output
                 ResultSet rs = st.executeQuery(query);
                 StringBuilder strBuild = new StringBuilder();
@@ -104,7 +105,7 @@ public class ConnectDataBase implements Server{
 
                 // iterate result set and  build response
                 while (rs.next()) {
-                    for(int i = 1; i < columnsNumber; ++i){
+                    for (int i = 1; i < columnsNumber; ++i) {
                         temp = rs.getString(i) + ", ";
                         strBuild.append(temp);
                     }
@@ -112,22 +113,19 @@ public class ConnectDataBase implements Server{
                     strBuild.append("\n");
                 }
                 result = strBuild.toString();
-            }else{
+            } else {
                 // query should not print anything
                 int out = st.executeUpdate(query);
-                result = "Rows affected: "+Integer.toString(out);
+                result = "Rows affected: " + Integer.toString(out);
             }
-        }
-        catch (SQLException err){
+        } catch (SQLException err) {
             // error handling
             String error = err.toString();
             System.out.println(error);
-            if(error.contains("syntax"))
-            {
+            if (error.contains("syntax")) {
                 result = STRUCTURE_ERROR;
-            }
-            else{
-                 result = LOGICAL_ERROR;
+            } else {
+                result = LOGICAL_ERROR;
             }
             // format error
             return formatResponse(query, result, error);
@@ -135,33 +133,34 @@ public class ConnectDataBase implements Server{
         // format response
         return formatResponse(query, result, null);
     }
-    
+
     /**
      * Sends DML query to remote SQL server.
+     *
      * @param query
-     * @return 
+     * @return
      */
     public String sendToDataDML(String query) {
         String result;
         String temp;
         String triggerQuery = query.split(" ")[0].toUpperCase();
-        
+
         try {
             Statement st = connection.createStatement();
-            
-            if(this.updateTriggerDML.contains(triggerQuery)){
+
+            if (this.updateTriggerDML.contains(triggerQuery)) {
                 // query should not print anything.
                 int out = st.executeUpdate(query);
-                result = "Rows affected: "+Integer.toString(out);
-            }else{
+                result = "Rows affected: " + Integer.toString(out);
+            } else {
                 // query returns data
                 ResultSet rs = st.executeQuery(query);
                 StringBuilder strBuild = new StringBuilder();
                 int columnsNumber = rs.getMetaData().getColumnCount();
-                
+
                 // iterate result set and  build response
                 while (rs.next()) {
-                    for(int i = 1; i < columnsNumber; ++i){
+                    for (int i = 1; i < columnsNumber; ++i) {
                         temp = rs.getString(i) + ", ";
                         strBuild.append(temp);
                     }
@@ -170,28 +169,67 @@ public class ConnectDataBase implements Server{
                 }
                 result = strBuild.toString();
             }
-        }
-        catch(SQLException err)
-        {
+        } catch (SQLException err) {
             // error handling
             String error = err.toString();
             System.out.println(error);
-            if(error.contains("syntax"))
-            {
+            if (error.contains("syntax")) {
                 result = STRUCTURE_ERROR;
-            }
-            else{
-                 result = LOGICAL_ERROR;
+            } else {
+                result = LOGICAL_ERROR;
             }
             // format error
             return formatResponse(query, result, error);
-        }  
+        }
+        // format response
+        return formatResponse(query, result, null);
+    }
+
+    /**
+     * @param query
+     * @return
+     */
+    public String sendToDataTables(String query) {
+        String result;
+        String temp;
+        try {
+            Statement st = connection.createStatement();
+
+            // query returns data
+            ResultSet rs = st.executeQuery(query);
+            StringBuilder strBuild = new StringBuilder();
+            int columnsNumber = rs.getMetaData().getColumnCount();
+
+            // iterate result set and  build response
+            while (rs.next()) {
+                for (int i = 1; i < columnsNumber; ++i) {
+                    temp = rs.getString(i) + ", ";
+                    strBuild.append(temp);
+                }
+                strBuild.append(rs.getString(columnsNumber));
+                strBuild.append("\n");
+            }
+            result = strBuild.toString();
+
+        } catch (SQLException err) {
+            // error handling
+            String error = err.toString();
+            System.out.println(error);
+            if (error.contains("syntax")) {
+                result = STRUCTURE_ERROR;
+            } else {
+                result = LOGICAL_ERROR;
+            }
+            // format error
+            return formatResponse(query, result, error);
+        }
         // format response
         return formatResponse(query, result, null);
     }
 
     /**
      * interface method.
+     *
      * @param request the request
      * @return response string from server
      */
@@ -202,6 +240,7 @@ public class ConnectDataBase implements Server{
 
     /**
      * interface method.
+     *
      * @param request the request
      * @return response string from server
      */
@@ -209,25 +248,35 @@ public class ConnectDataBase implements Server{
     public String sendRequestDML(String request) {
         return sendToDataDML(request);
     }
-    
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public String showTablesRequest(String query) {
+        return sendToDataTables(query);
+    }
+
     /**
      * formats response from server.
+     *
      * @param query
      * @param response
      * @param error
-     * @return 
+     * @return
      */
-    public static String formatResponse(String query, String response, String error){
+    public static String formatResponse(String query, String response, String error) {
         String output;
-        if(error == null)
+        if (error == null)
             error = "";
-        else 
-            error = error+"\n";
-        
-        if(Server.LOGICAL_ERROR.equals(response)
-            || Server.STRUCTURE_ERROR.equals(response))
+        else
+            error = error + "\n";
+
+        if (Server.LOGICAL_ERROR.equals(response)
+                || Server.STRUCTURE_ERROR.equals(response))
             response = response + ": \n" + error;
-        
+
         output = ">" + query + "\n";
         output = output + "OUTPUT:\n" + response + "\n";
 

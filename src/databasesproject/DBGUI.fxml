@@ -85,11 +85,16 @@
                      </VBox.margin>
                   </HBox>
                   <Label style="-fx-font-weight: bold;" text="DML Response:" textFill="#663399" underline="true" />
-                  <TextArea fx:id="textAreaResponseDML" prefHeight="400.0" prefWidth="490.0">
+                  <TextArea fx:id="textAreaResponseDML" prefHeight="131.0" prefWidth="485.0">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </TextArea>
+                  <Button fx:id="buttonShowTables" mnemonicParsing="false" onAction="#showTables" prefHeight="25.0" prefWidth="100.0" text="Show Tables" />
+                  <HBox fx:id="boxTables" prefHeight="112.0" prefWidth="485.0" />
+                  <TextArea fx:id="textAreaSimpleQuery" prefHeight="47.0" prefWidth="313.0" />
+                  <Button mnemonicParsing="false" onAction="#sendSimpleQuery" prefHeight="25.0" prefWidth="150.0" text="Submit Simple query" />
+                  <TextArea fx:id="textAreaResponseSimpleQuery" prefHeight="47.0" prefWidth="485.0" />
                </children>
                <HBox.margin>
                   <Insets left="5.0" right="10.0" />
@@ -115,7 +120,7 @@
                      </VBox.margin>
                   </HBox>
                   <Label style="-fx-font-weight: bold;" text="DDL Response:" textFill="#663399" underline="true" />
-                  <TextArea fx:id="textAreaResponseDDL" prefHeight="400.0" prefWidth="440.0">
+                  <TextArea fx:id="textAreaResponseDDL" prefHeight="132.0" prefWidth="485.0">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>

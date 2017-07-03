@@ -13,4 +13,5 @@ public interface Server {
     
     String sendRequestDDL(String request);
     String sendRequestDML(String request);
+    String showTablesRequest(String query);
 }
