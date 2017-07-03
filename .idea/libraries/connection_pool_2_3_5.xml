@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="connection-pool-2.3.5">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/databasesproject/connection-pool-2.3.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
