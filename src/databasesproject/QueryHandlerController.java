@@ -6,6 +6,8 @@ package databasesproject;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -47,7 +49,7 @@ public class QueryHandlerController implements Initializable {
     private TextArea textAreaSimpleQuery;
     @FXML
     private TextArea textAreaResponseSimpleQuery;
-    private VBox[] vBoxes;
+    private List<VBox> vBoxes;
     private List<String> tables;
     private List<CheckBox> checkBoxes;
 
@@ -197,22 +199,26 @@ public class QueryHandlerController implements Initializable {
      * @param tables - the tables from the server.
      */
     private void createTablesBoxes(String tables) {
+        vBoxes = new LinkedList<>();
+        boxTables = new HBox();
+        if(tables == null) {
+            System.out.println("Daniel Hermon The King!!!\n");
+        }
         String array[] = tables.split(",");
         vBoxNumber = 0;
-        for (int i = 0; i < array.length; i++) {
-            vBoxes[i] = new VBox();
-        }
 
         for (String table : array) {
-            Button button = new Button(table);
+            Button button = new Button();
+            button.setText(table);
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     describeTable(table, vBoxNumber);
                 }
             });
-            vBoxes[vBoxNumber].getChildren().add(button);
-            boxTables.getChildren().add(vBoxes[vBoxNumber]);
+            VBox vBox = new VBox(button);
+            vBoxes.add(vBox);
+            boxTables.getChildren().add(vBox);
             boxTables.setAlignment(Pos.BASELINE_LEFT);
             vBoxNumber++;
         }
@@ -228,7 +234,7 @@ public class QueryHandlerController implements Initializable {
         for (String value : array) {
             CheckBox checkBox = new CheckBox(value);
             checkBoxes.add(checkBox);
-            vBoxes[tableNumber].getChildren().add(checkBox);
+            vBoxes.get(tableNumber).getChildren().add(checkBox);
         }
     }
 

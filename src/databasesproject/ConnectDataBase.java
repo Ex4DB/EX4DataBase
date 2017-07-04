@@ -207,7 +207,7 @@ public class ConnectDataBase implements Server {
                     strBuild.append(temp);
                 }
                 strBuild.append(rs.getString(columnsNumber));
-                strBuild.append("\n");
+                strBuild.append(",");
             }
             result = strBuild.toString();
 
@@ -224,7 +224,7 @@ public class ConnectDataBase implements Server {
             return formatResponse(query, result, error);
         }
         // format response
-        return formatResponse(query, result, null);
+        return result;
     }
 
     /**
