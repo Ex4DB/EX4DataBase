@@ -26,10 +26,13 @@ public class HomeController implements Initializable {
     @FXML
     private Button ddlBtn;
 
+    @FXML
+    private Button simpleQueryBtn;
+
     /**
      * Sets the server.
      *
-     * @param server
+     * @param server server.
      */
     public void setServer(Server server) {
 
@@ -71,9 +74,10 @@ public class HomeController implements Initializable {
             path = "../Fxml/DdlPage.fxml";
         } else {
 
-            path = "";
+            path = "../Fxml/SimpleQueryPage.fxml";
         }
 
+        //Load resource.
         fxmlLoader = new FXMLLoader(getClass().getResource(path));
         stage = (Stage) dmlBtn.getScene().getWindow();
         root = fxmlLoader.load();
@@ -83,9 +87,15 @@ public class HomeController implements Initializable {
         controller.setServer(this.server);
         Scene scene = new Scene(root);
 
+        //Set scene.
         stage.setScene(scene);
         stage.show();
 
+
+        if(event.getSource() == simpleQueryBtn){
+
+            controller.showTables();
+        }
         //Hide current scene.
         //dmlBtn.getScene().getWindow().hide();
 

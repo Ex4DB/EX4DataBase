@@ -1,20 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.Image?>
 
 <AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="databasesproject.Controllers.HomeController">
-   <children>
-      <Label alignment="CENTER" layoutX="259.0" layoutY="37.0" text="Home page" />
-      <VBox alignment="CENTER" layoutX="251.0" layoutY="110.0" spacing="20.0">
-         <children>
-            <Button fx:id="ddlBtn" mnemonicParsing="false" onAction="#openPage" text="DDL" />
-            <Button fx:id="dmlBtn" mnemonicParsing="false" onAction="#openPage" text="DML" />
-            <Button mnemonicParsing="false" text="Simple query" />
-         </children>
-      </VBox>
-   </children>
+    <children>
+        <Pane prefWidth="600.0" style="-fx-background-color: #009688;">
+            <children>
+                <Label layoutY="14.0" text="DATABASE" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="26.0" />
+                    </font>
+                    <padding>
+                        <Insets left="10.0" />
+                    </padding>
+                </Label>
+                <ImageView fitHeight="70.0" fitWidth="95.0" layoutX="457.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../DBlogo.png" />
+                    </image>
+                </ImageView>
+            </children>
+            <effect>
+                <DropShadow blurType="GAUSSIAN" color="#00000084" height="15.07" offsetY="2.0" radius="3.2675" width="0.0" />
+            </effect>
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
+            <padding>
+                <Insets bottom="10.0" />
+            </padding>
+        </Pane>
+        <VBox alignment="CENTER" layoutX="251.0" layoutY="110.0" spacing="20.0">
+            <children>
+                <Button fx:id="ddlBtn" alignment="CENTER" mnemonicParsing="false" onAction="#openPage" prefWidth="150.0" style="-fx-font-weight: bold; -fx-background-color: #6495ED;" text="DDL" />
+                <Button fx:id="dmlBtn" mnemonicParsing="false" onAction="#openPage" prefWidth="150.0" style="-fx-font-weight: bold; -fx-background-color: #6495ED;" text="DML" />
+                <Button fx:id="simpleQueryBtn" mnemonicParsing="false" onAction="#openPage" prefWidth="150.0" style="-fx-font-weight: bold; -fx-background-color: #6495ED;" text="Simple query" />
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>

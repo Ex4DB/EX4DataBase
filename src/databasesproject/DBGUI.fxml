@@ -74,7 +74,7 @@
                         <Insets bottom="10.0" top="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <Label style="-fx-font-weight: bold;" text="DML Response:" textFill="#663399" underline="true" />
+                  <Label style="-fx-font-weight: bold;" textFill="#663399" underline="true" text="DML Response:" />
                   <TextArea fx:id="textAreaResponseDML" prefHeight="131.0" prefWidth="485.0">
                      <VBox.margin>
                         <Insets bottom="5.0" />

@@ -7,27 +7,21 @@ package databasesproject.Controllers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import databasesproject.ScriptRunner;
 import databasesproject.Server;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -43,21 +37,42 @@ public class QueryHandlerController implements Initializable {
     private File userFilesPath = null;
 
     @FXML
-    private TextArea       textAreaQueryDML;
+    private TextArea         textAreaQueryDML;
     @FXML
-    private TextArea       textAreaQueryDDL;
+    private TextArea         textAreaQueryDDL;
     @FXML
-    private TextArea       textAreaResponseDML;
+    private TextArea         textAreaResponseDML;
     @FXML
-    private TextArea       textAreaResponseDDL;
+    private TextArea         textAreaResponseDDL;
     @FXML
-    private HBox           boxTables;
+    private HBox             boxTables;
     @FXML
-    private TextArea       textAreaSimpleQuery;
+    private TextArea         textAreaSimpleQuery;
     @FXML
-    private TextArea       textAreaResponseSimpleQuery;
+    private TextArea         textAreaResponseSimpleQuery;
     @FXML
-    private Button         dmlBtn;
+    private Button           dmlBtn;
+    @FXML
+    private ComboBox<String> tablesCBox;
+    @FXML
+    private VBox             simpleQueryVBox;
+    @FXML
+    private Label            chooseColumnsLbl;
+    @FXML
+    private ScrollPane       columnsScrollPane;
+    @FXML
+    private VBox             tableColumnsVBox;
+    @FXML
+    private Label            whereLbl;
+    @FXML
+    private TextArea         whereTxtArea;
+    @FXML
+    private Button           simpleQueryBtn;
+    @FXML
+    private Label            queryResultLbl;
+    @FXML
+    private TextArea         queryResultTxtArea;
+
     private List<VBox>     vBoxes;
     private List<String>   tables;
     private List<CheckBox> checkBoxes;
@@ -91,25 +106,121 @@ public class QueryHandlerController implements Initializable {
 
     /**
      * Send to server request for tables names.
-     *
-     * @param event
      */
     @FXML
-    public void showTables(ActionEvent event) {
+    public void showTables() {
         String query = "show tables;";
-        responseThread(query, null, Type.TABLES, 0);
+        getTables(query, tablesCBox, simpleQueryVBox, Type.TABLES);
     }
 
     /**
      * Send to server request for tables values.
      *
-     * @param tableName
-     * @param tableNumber
+     * @param event
      */
-    public void describeTable(String tableName, int tableNumber) {
-        String query = "DESC " + tableName + ";";
-        tables.add(tableName);
-        responseThread(query, null, Type.VALUES, tableNumber);
+    @FXML
+    public void describeTable(ActionEvent event) {
+
+        //Get selected value from comboBox.
+        String tableName = tablesCBox.getSelectionModel().getSelectedItem();
+
+        //Check if selected value is not null.
+        if (tableName != null) {
+
+            String query = "DESC " + tableName + ";";
+            //tables.add(tableName); TODO what is that for?
+            getTables(query, tablesCBox, simpleQueryVBox, Type.VALUES);
+            //responseThread(query, null, Type.VALUES, tableNumber);
+        }
+
+    }
+
+    /**
+     * Create for each table a button.
+     *
+     * @param tables - the tables from the server.
+     */
+    private void PopulateTablesNames(String tables) {
+
+        //TODO check if response is not an error message
+
+        String tablesNames[] = tables.split(",");
+
+        //Clear comboBox.
+        this.tablesCBox.getItems().clear();
+
+        //Insert tables names into comboBox
+        this.tablesCBox.getItems().addAll(tablesNames);
+
+
+
+      /*  vBoxes = new LinkedList<>();
+        boxTables = new HBox();
+        if (tables == null) {
+            System.out.println("Daniel Hermon The King!!!\n");
+        }
+        String array[] = tables.split(",");
+        vBoxNumber = 0;
+
+        for (String table : array) {
+            Button button = new Button();
+            button.setText(table);
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    describeTable(table, vBoxNumber);
+                }
+            });
+            VBox vBox = new VBox(button);
+            vBoxes.add(vBox);
+            boxTables.getChildren().add(vBox);
+            boxTables.setAlignment(Pos.BASELINE_LEFT);
+            vBoxNumber++;
+        }*/
+    }
+
+    /**
+     * Creates checkBoxes for table's columns.
+     *
+     * @param values List of values.
+     */
+    private void createCheckBoxes(String values) {
+
+        String tableColumns[] = values.split(",");
+
+        //Clear items from VBox.
+        this.tableColumnsVBox.getChildren().clear();
+
+        //TODO test scrollpane in case of many column values
+
+        //TODO find another way other than jumping over 6 elements in the array
+        for (int i = 0; i < tableColumns.length; i += 6) {
+
+            CheckBox checkBox = new CheckBox(tableColumns[i]);
+
+            //Set margins.
+            VBox.setMargin(checkBox, new Insets(4, 0, 0, 8));
+
+            //Add checkBox to VBox.
+            this.tableColumnsVBox.getChildren().add(checkBox);
+            //vBoxes.get(tableNumber).getChildren().add(checkBox);
+        }
+
+        //Set elements to visible.
+        for (Node child : this.simpleQueryVBox.getChildren()){
+
+            if(!child.isVisible()){
+
+                child.setVisible(true);
+            }
+        }
+       /* this.columnsScrollPane.setVisible(true);
+        this.chooseColumnsLbl.setVisible(true);
+        this.whereLbl.setVisible(true);
+        this.whereTxtArea.setVisible(true);
+        this.simpleQueryBtn.setVisible(true);
+        this.queryResultLbl.setVisible(true);
+        this.queryResultTxtArea.setVisible(true);*/
     }
 
     /**
@@ -119,22 +230,46 @@ public class QueryHandlerController implements Initializable {
      */
     @FXML
     public void sendSimpleQuery(ActionEvent event) {
-        String select = "SELECT ";
-        for (CheckBox value : checkBoxes) {
-            if (value.isSelected())
-                select += value.getText() + " ";
+
+        StringBuilder select = new StringBuilder("SELECT ");
+        String        tableName;
+
+        for (Node child : tableColumnsVBox.getChildren()) {
+
+            //Check if a CheckBox instance.
+            if (child instanceof CheckBox) {
+
+                //Check if selected.
+                if (((CheckBox) child).isSelected())
+                    select.append(((CheckBox) child).getText()).append(", ");
+            }
         }
-        select += "FROM ";
-        for (String table : tables) {
-            select += table + " ";
-        }
-        String where = "WHERE " + this.textAreaSimpleQuery.getText() + ";";
+
+        //TODO check it works correctly when choosing more than one column.
+        //Fix string.
+        select.delete(select.length() - 2, select.length() - 1);
+
+        //TODO check if user can select only one table or multiple ones, if so then change comboBox to checkBoxes.
+        //Get selected value from comboBox.
+        tableName = tablesCBox.getSelectionModel().getSelectedItem();
+
+        select.append("FROM ").append(tableName);
+       /* for (String table : tables) {
+            select.append(table).append(" ");
+        }*/
+
+        String where = " WHERE " + this.whereTxtArea.getText() + ";";
         String query = select + where;
         //TODO build query and sent to server
         if (!"".equals(query)) {
-            this.textAreaQueryDML.setText("");
-            responseThread(query, this.textAreaResponseSimpleQuery, Type
-                    .SIMPLE, 0);
+            // this.textAreaQueryDML.setText("");
+
+            //TODO delete print
+            System.out.println(query);
+
+            getTables(query, null, null, Type.SIMPLE);
+           /* responseThread(query, this.textAreaResponseSimpleQuery, Type
+                    .SIMPLE, 0);*/
         }
     }
 
@@ -233,65 +368,19 @@ public class QueryHandlerController implements Initializable {
         return file.getPath();
     }
 
-    /**
-     * Create for each table a button.
-     *
-     * @param tables - the tables from the server.
-     */
-    private void createTablesBoxes(String tables) {
-        vBoxes = new LinkedList<>();
-        boxTables = new HBox();
-        if (tables == null) {
-            System.out.println("Daniel Hermon The King!!!\n");
-        }
-        String array[] = tables.split(",");
-        vBoxNumber = 0;
-
-        for (String table : array) {
-            Button button = new Button();
-            button.setText(table);
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    describeTable(table, vBoxNumber);
-                }
-            });
-            VBox vBox = new VBox(button);
-            vBoxes.add(vBox);
-            boxTables.getChildren().add(vBox);
-            boxTables.setAlignment(Pos.BASELINE_LEFT);
-            vBoxNumber++;
-        }
-    }
-
-    /**
-     * Create for each value check box.
-     *
-     * @param values      - values from the select table.
-     * @param tableNumber - table number.
-     */
-    private void createCheckBoxes(String values, int tableNumber) {
-        String array[] = values.split(",");
-        for (String value : array) {
-            CheckBox checkBox = new CheckBox(value);
-            checkBoxes.add(checkBox);
-            vBoxes.get(tableNumber).getChildren().add(checkBox);
-        }
-    }
-
     @FXML
     public void backToHomePage(ActionEvent event) throws IOException {
 
-        Stage  stage;
-        Parent root;
-        FXMLLoader fxmlLoader;
-        String path;
+        Stage          stage;
+        Parent         root;
+        FXMLLoader     fxmlLoader;
+        String         path;
         HomeController controller;
 
         path = "../Fxml/HomePage.fxml";
 
         //get reference to the button's stage
-        stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
         //load up OTHER FXML document
         fxmlLoader = new FXMLLoader(getClass().getResource(path));
@@ -345,19 +434,55 @@ public class QueryHandlerController implements Initializable {
                         break;
                     case TABLES:
                         response = server.showTablesRequest(query);
-                        createTablesBoxes(response);
+                        PopulateTablesNames(response);
                     case VALUES:
                         response = server.showTablesRequest(query);
-                        createCheckBoxes(response, tableNumber);
+                        //createCheckBoxes(response, tableNumber);
                     case SIMPLE:
                         response = server.showTablesRequest(query);
                     default:
                 }
                 if (responseArea != null)
                     responseArea.clear();
-                    responseArea.appendText(response);
+                responseArea.appendText(response);
             }
         });
         t.start();
+    }
+
+
+    private void getTables(String query, ComboBox comboBox, VBox vBox, Type type) {
+
+        Platform.runLater(
+                () -> {
+                    String response;
+
+                    switch (type) {
+
+                        case TABLES:
+                            response = server.showTablesRequest(query);
+                            PopulateTablesNames(response);
+                            break;
+
+                        case VALUES:
+                            response = server.showTablesRequest(query);
+                            createCheckBoxes(response);
+                            System.out.println(response);
+                            break;
+
+                        case SIMPLE:
+                            response = server.showTablesRequest(query);
+                            this.whereTxtArea.clear();
+                            this.queryResultTxtArea.clear();
+                            this.queryResultTxtArea.appendText(response);
+                            break;
+
+                        default:
+                    }
+//                if (responseArea != null)
+//                    responseArea.clear();
+//                responseArea.appendText(response);
+                }
+        );
     }
 }

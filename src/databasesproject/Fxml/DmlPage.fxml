@@ -12,7 +12,7 @@
     <children>
         <VBox spacing="5.0">
             <children>
-                <Label text="Enter DML query:">
+                <Label text="Enter DML query:" style="-fx-font-weight: bold;" textFill="#663399" underline="true">
                     <VBox.margin>
                         <Insets left="8.0" right="5.0" top="5.0"/>
                     </VBox.margin>
@@ -34,7 +34,7 @@
                         <Insets left="8.0"/>
                     </padding>
                 </HBox>
-                <Label text="DML result:">
+                <Label text="DML result:" style="-fx-font-weight: bold;" textFill="#663399" underline="true">
                     <VBox.margin>
                         <Insets left="8.0" right="5.0" top="5.0"/>
                     </VBox.margin>
