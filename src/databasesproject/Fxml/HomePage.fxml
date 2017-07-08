@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="databasesproject.Controllers.HomeController">
+   <children>
+      <Label alignment="CENTER" layoutX="259.0" layoutY="37.0" text="Home page" />
+      <VBox alignment="CENTER" layoutX="251.0" layoutY="110.0" spacing="20.0">
+         <children>
+            <Button fx:id="ddlBtn" mnemonicParsing="false" onAction="#openPage" text="DDL" />
+            <Button fx:id="dmlBtn" mnemonicParsing="false" onAction="#openPage" text="DML" />
+            <Button mnemonicParsing="false" text="Simple query" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

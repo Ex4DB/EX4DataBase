@@ -1,9 +1,11 @@
 /**
  * Daniel Marzayev 318687134 89-281-02
- * Dani Perov 318810637 89-281-02
+ * Danny Perov 318810637 89-281-02
  */
 package databasesproject;
 
+import databasesproject.Controllers.HomeController;
+import databasesproject.Controllers.QueryHandlerController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,21 +16,45 @@ import javafx.stage.Stage;
  * Class to launch the GUI.
  */
 public class MainLauncher extends Application {
-    
+
     /**
      * Launches the GUI.
+     *
      * @param stage
-     * @throws Exception 
+     * @throws Exception
      */
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("DBGUI.fxml"));
+
+        FXMLLoader     fxmlLoader;
+        Parent         root;
+        HomeController controller;
+        Server         server;
+
+        //Initialize server.
+        server = new ConnectDataBase();
+
+        fxmlLoader = new FXMLLoader(getClass().getResource("Fxml/HomePage.fxml"));
+        root = fxmlLoader.load();
+        controller = fxmlLoader.getController();
+
+        //Set server.
+        controller.setServer(server);
         Scene scene = new Scene(root);
-        
+
         stage.setTitle("Database Project 2017");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+
+
+       /* Parent root  = FXMLLoader.load(getClass().getResource("Fxml/HomePage.fxml"));
+        Scene  scene = new Scene(root);
+
+        stage.setTitle("Database Project 2017");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();*/
     }
 
     /**
@@ -36,5 +62,5 @@ public class MainLauncher extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-    }  
+    }
 }

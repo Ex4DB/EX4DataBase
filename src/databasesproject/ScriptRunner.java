@@ -1,6 +1,6 @@
 /**
  * Daniel Marzayev 318687134 89-281-02
- * Dani Perov 318810637 89-281-02
+ * Danny Perov 318810637 89-281-02
  */
 package databasesproject;
 
