@@ -420,36 +420,41 @@ public class QueryHandlerController implements Initializable {
      */
     private void responseThread(String query, TextArea responseArea, Type
             type, int tableNumber) {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String response = "", output;
 
-                switch (type) {
-                    case DDL:
-                        response = server.sendRequestDDL(query);
-                        break;
-                    case DML:
-                        response = server.sendRequestDML(query);
-                        break;
-                    case TABLES:
-                        response = server.showTablesRequest(query);
-                        PopulateTablesNames(response);
-                    case VALUES:
-                        response = server.showTablesRequest(query);
-                        //createCheckBoxes(response, tableNumber);
-                    case SIMPLE:
-                        response = server.showTablesRequest(query);
-                    default:
-                }
-                if (responseArea != null)
-                    responseArea.clear();
-                responseArea.appendText(response);
-            }
-        });
-        t.start();
+        Platform.runLater(
+                () -> {
+
+                    String response = "", output;
+
+                    switch (type) {
+                        case DDL:
+                            response = server.sendRequestDDL(query);
+                            break;
+                        case DML:
+                            response = server.sendRequestDML(query);
+                            break;
+                        case TABLES:
+                            response = server.showTablesRequest(query);
+                            PopulateTablesNames(response);
+                        case VALUES:
+                            response = server.showTablesRequest(query);
+                            //createCheckBoxes(response, tableNumber);
+                        case SIMPLE:
+                            response = server.showTablesRequest(query);
+                        default:
+                    }
+                    if (responseArea != null){
+
+                        responseArea.clear();
+
+                        //Check server response.
+                        if(isValidServerResponse(response)) {
+
+                            responseArea.appendText(response);
+                        }
+                    }
+                });
     }
-
 
     private void getTables(String query, ComboBox comboBox, VBox vBox, Type type) {
 
@@ -474,7 +479,12 @@ public class QueryHandlerController implements Initializable {
                             response = server.showTablesRequest(query);
                             this.whereTxtArea.clear();
                             this.queryResultTxtArea.clear();
-                            this.queryResultTxtArea.appendText(response);
+
+                            //Check the server response.
+                            if(isValidServerResponse(response)) {
+
+                                this.queryResultTxtArea.appendText(response);
+                            }
                             break;
 
                         default:
@@ -484,5 +494,36 @@ public class QueryHandlerController implements Initializable {
 //                responseArea.appendText(response);
                 }
         );
+    }
+
+    /**
+     * Check if the server response is valid.
+     * @param response Server response.
+     * @return Is the response valid.
+     */
+    boolean isValidServerResponse(String response){
+
+        if(response.contains("WRONG QUERY STRUCTURE")){
+
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("WRONG QUERY STRUCTURE");
+            alert.setContentText(response); //TODO show only the message itself.
+
+            alert.showAndWait();
+            return false;
+        }
+        else if(response.contains("LOGICAL ERROR")){
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("LOGICAL ERROR");
+            alert.setContentText(response); //TODO show only the message itself.
+
+            alert.showAndWait();
+            return false;
+        }
+
+        return true;
     }
 }
