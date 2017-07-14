@@ -128,9 +128,7 @@ public class QueryHandlerController implements Initializable {
         if (tableName != null) {
 
             String query = "DESC " + tableName + ";";
-            //tables.add(tableName); TODO what is that for?
             getTables(query, tablesCBox, simpleQueryVBox, Type.VALUES);
-            //responseThread(query, null, Type.VALUES, tableNumber);
         }
 
     }
@@ -152,31 +150,6 @@ public class QueryHandlerController implements Initializable {
         //Insert tables names into comboBox
         this.tablesCBox.getItems().addAll(tablesNames);
 
-
-
-      /*  vBoxes = new LinkedList<>();
-        boxTables = new HBox();
-        if (tables == null) {
-            System.out.println("Daniel Hermon The King!!!\n");
-        }
-        String array[] = tables.split(",");
-        vBoxNumber = 0;
-
-        for (String table : array) {
-            Button button = new Button();
-            button.setText(table);
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    describeTable(table, vBoxNumber);
-                }
-            });
-            VBox vBox = new VBox(button);
-            vBoxes.add(vBox);
-            boxTables.getChildren().add(vBox);
-            boxTables.setAlignment(Pos.BASELINE_LEFT);
-            vBoxNumber++;
-        }*/
     }
 
     /**
@@ -203,7 +176,6 @@ public class QueryHandlerController implements Initializable {
 
             //Add checkBox to VBox.
             this.tableColumnsVBox.getChildren().add(checkBox);
-            //vBoxes.get(tableNumber).getChildren().add(checkBox);
         }
 
         //Set elements to visible.
@@ -268,8 +240,6 @@ public class QueryHandlerController implements Initializable {
             System.out.println(query);
 
             getTables(query, null, null, Type.SIMPLE);
-           /* responseThread(query, this.textAreaResponseSimpleQuery, Type
-                    .SIMPLE, 0);*/
         }
     }
 
