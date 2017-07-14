@@ -55,6 +55,7 @@ public class ConnectDataBase implements Server {
         }
         this.connection = null;
         try {
+            //TODO delete all folders, conf.txt should be in the main dir
             BufferedReader reader = new BufferedReader(new FileReader("src\\databasesproject\\conf.txt"));
             String line;
             line = reader.readLine();
