@@ -29,7 +29,6 @@ import javafx.stage.Stage;
 
 public class QueryHandlerController implements Initializable {
     private Server server;
-    private int    vBoxNumber;
 
     public enum Type {DML, DDL, TABLES, VALUES, SIMPLE}
 
@@ -72,10 +71,6 @@ public class QueryHandlerController implements Initializable {
     private Label            queryResultLbl;
     @FXML
     private TextArea         queryResultTxtArea;
-
-    private List<VBox>     vBoxes;
-    private List<String>   tables;
-    private List<CheckBox> checkBoxes;
 
     /**
      * Constructor.
@@ -140,8 +135,6 @@ public class QueryHandlerController implements Initializable {
      */
     private void PopulateTablesNames(String tables) {
 
-        //TODO check if response is not an error message
-
         String tablesNames[] = tables.split(",");
 
         //Clear comboBox.
@@ -164,9 +157,6 @@ public class QueryHandlerController implements Initializable {
         //Clear items from VBox.
         this.tableColumnsVBox.getChildren().clear();
 
-        //TODO test scrollpane in case of many column values
-
-        //TODO find another way other than jumping over 6 elements in the array
         for (int i = 0; i < tableColumns.length; i += 6) {
 
             CheckBox checkBox = new CheckBox(tableColumns[i]);
@@ -217,11 +207,9 @@ public class QueryHandlerController implements Initializable {
             }
         }
 
-        //TODO check it works correctly when choosing more than one column.
         //Fix string.
         select.delete(select.length() - 2, select.length() - 1);
 
-        //TODO check if user can select only one table or multiple ones, if so then change comboBox to checkBoxes.
         //Get selected value from comboBox.
         tableName = tablesCBox.getSelectionModel().getSelectedItem();
 
@@ -232,13 +220,7 @@ public class QueryHandlerController implements Initializable {
 
         String where = " WHERE " + this.whereTxtArea.getText() + ";";
         String query = select + where;
-        //TODO build query and sent to server
         if (!"".equals(query)) {
-            // this.textAreaQueryDML.setText("");
-
-            //TODO delete print
-            System.out.println(query);
-
             getTables(query, null, null, Type.SIMPLE);
         }
     }
@@ -363,22 +345,6 @@ public class QueryHandlerController implements Initializable {
         stage.setScene(scene);
         stage.show();
 
-       /* String                 path;
-        Stage                  stage;
-        FXMLLoader             fxmlLoader;
-        Parent                 root;
-
-        path = "../Fxml/HomePage.fxml";
-
-        fxmlLoader = new FXMLLoader(getClass().getResource(path));
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        root = fxmlLoader.load();
-
-        Scene scene = new Scene(root);
-
-        //Set scene.
-        stage.setScene(scene);
-        stage.show();*/
     }
 
     /**
@@ -459,9 +425,6 @@ public class QueryHandlerController implements Initializable {
 
                         default:
                     }
-//                if (responseArea != null)
-//                    responseArea.clear();
-//                responseArea.appendText(response);
                 }
         );
     }
@@ -478,7 +441,7 @@ public class QueryHandlerController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
             alert.setHeaderText("WRONG QUERY STRUCTURE");
-            alert.setContentText(response); //TODO show only the message itself.
+            alert.setContentText(response);
 
             alert.showAndWait();
             return false;
@@ -488,7 +451,7 @@ public class QueryHandlerController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("LOGICAL ERROR");
-            alert.setContentText(response); //TODO show only the message itself.
+            alert.setContentText(response);
 
             alert.showAndWait();
             return false;

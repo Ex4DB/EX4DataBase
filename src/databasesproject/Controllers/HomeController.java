@@ -1,6 +1,8 @@
+/**
+ * Daniel Marzayev 318687134 89-281-02
+ * Danny Perov 318810637 89-281-02
+ */
 package databasesproject.Controllers;
-
-
 import databasesproject.ConnectDataBase;
 import databasesproject.Server;
 import javafx.event.ActionEvent;
@@ -96,25 +98,7 @@ public class HomeController implements Initializable {
 
             controller.showTables();
         }
-        //Hide current scene.
-        //dmlBtn.getScene().getWindow().hide();
 
-/*        Stage  stage;
-        Parent root;
-
-        //get reference to the button's stage
-        stage = (Stage) dmlBtn.getScene().getWindow();
-
-        //load up OTHER FXML document
-        root = FXMLLoader.load(getClass().getResource("/databasesproject/DBGUI.fxml"));
-
-        //Hide current scene.
-        dmlBtn.getScene().getWindow().hide();
-
-        //create a new scene with root and set the stage
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
     }
 
 

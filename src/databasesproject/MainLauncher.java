@@ -47,14 +47,6 @@ public class MainLauncher extends Application {
         stage.setResizable(false);
         stage.show();
 
-
-       /* Parent root  = FXMLLoader.load(getClass().getResource("Fxml/HomePage.fxml"));
-        Scene  scene = new Scene(root);
-
-        stage.setTitle("Database Project 2017");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();*/
     }
 
     /**
