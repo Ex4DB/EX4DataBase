@@ -4,8 +4,6 @@
  */
 package databasesproject;
 
-import databasesproject.Controllers.HomeController;
-import databasesproject.Controllers.QueryHandlerController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -34,7 +32,7 @@ public class MainLauncher extends Application {
         //Initialize server.
         server = new ConnectDataBase();
 
-        fxmlLoader = new FXMLLoader(getClass().getResource("Fxml/HomePage.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getResource("HomePage.fxml"));
         root = fxmlLoader.load();
         controller = fxmlLoader.getController();
 

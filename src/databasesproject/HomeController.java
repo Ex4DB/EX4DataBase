@@ -2,9 +2,7 @@
  * Daniel Marzayev 318687134 89-281-02
  * Danny Perov 318810637 89-281-02
  */
-package databasesproject.Controllers;
-import databasesproject.ConnectDataBase;
-import databasesproject.Server;
+package databasesproject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -70,13 +68,13 @@ public class HomeController implements Initializable {
         //Check which button was clicked.
         if (event.getSource() == dmlBtn) {
 
-            path = "../Fxml/DmlPage.fxml";
+            path = "DmlPage.fxml";
         } else if (event.getSource() == ddlBtn) {
 
-            path = "../Fxml/DdlPage.fxml";
+            path = "DdlPage.fxml";
         } else {
 
-            path = "../Fxml/SimpleQueryPage.fxml";
+            path = "SimpleQueryPage.fxml";
         }
 
         //Load resource.

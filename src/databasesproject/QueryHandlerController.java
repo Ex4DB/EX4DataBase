@@ -2,15 +2,13 @@
  * Daniel Marzayev 318687134 89-281-02
  * Danny Perov 318810637 89-281-02
  */
-package databasesproject.Controllers;
+package databasesproject;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import databasesproject.ScriptRunner;
-import databasesproject.Server;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +19,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -329,7 +326,7 @@ public class QueryHandlerController implements Initializable {
         String         path;
         HomeController controller;
 
-        path = "../Fxml/HomePage.fxml";
+        path = "HomePage.fxml";
 
         //get reference to the button's stage
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();

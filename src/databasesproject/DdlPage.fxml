@@ -7,39 +7,41 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="databasesproject.Controllers.QueryHandlerController">
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="databasesproject.QueryHandlerController"
+            prefHeight="600.0" prefWidth="600.0">
     <children>
         <VBox spacing="5.0">
             <children>
-                <Label text="Enter DML query:" style="-fx-font-weight: bold;" textFill="#663399" underline="true">
+                <Label text="Enter DDL query:" style="-fx-font-weight: bold;" textFill="#663399" underline="true" >
                     <VBox.margin>
                         <Insets left="8.0" right="5.0" top="5.0"/>
                     </VBox.margin>
                 </Label>
-                <TextArea fx:id="textAreaQueryDML" prefHeight="200.0" prefWidth="500.0">
+                <TextArea fx:id="textAreaQueryDDL" prefHeight="200.0" prefWidth="500.0">
                     <VBox.margin>
                         <Insets bottom="5.0" left="8.0" right="5.0" top="3.0"/>
                     </VBox.margin>
                 </TextArea>
                 <HBox alignment="CENTER">
                     <children>
-                        <Button fx:id="buttonSubmitDML" mnemonicParsing="false" onAction="#submitQueryDML"
-                                style="-fx-font-weight: bold; -fx-background-color: #6495ED;" text="Submit DML query"/>
+                        <Button fx:id="buttonSubmitDDL" mnemonicParsing="false" onAction="#submitQueryDDL"
+                                style="-fx-font-weight: bold; -fx-background-color: #6495ED;" text="Submit DDL query"/>
                         <Pane HBox.hgrow="ALWAYS"/>
-                        <Button fx:id="buttonScriptDML" mnemonicParsing="false" onAction="#runScriptDML"
-                                style="-fx-font-weight: bold; -fx-background-color: #ADD8E6;" text="Run DML script"/>
+                        <Button fx:id="buttonScriptDDL" mnemonicParsing="false" onAction="#runScriptDDL"
+                                style="-fx-font-weight: bold; -fx-background-color: #ADD8E6;" text="Run DDL script"/>
                     </children>
                     <padding>
                         <Insets left="8.0"/>
                     </padding>
                 </HBox>
-                <Label text="DML result:" style="-fx-font-weight: bold;" textFill="#663399" underline="true">
+                <Label text="DDL result:" style="-fx-font-weight: bold;" textFill="#663399" underline="true" >
                     <VBox.margin>
                         <Insets left="8.0" right="5.0" top="5.0"/>
                     </VBox.margin>
                 </Label>
-                <TextArea fx:id="textAreaResponseDML" prefHeight="200.0" prefWidth="500.0">
+                <TextArea fx:id="textAreaResponseDDL" prefHeight="200.0" prefWidth="500.0">
                     <VBox.margin>
                         <Insets bottom="5.0" left="8.0" right="5.0" top="3.0"/>
                     </VBox.margin>
