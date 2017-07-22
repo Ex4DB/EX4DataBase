@@ -119,7 +119,9 @@ public class QueryHandlerController implements Initializable {
         //Check if selected value is not null.
         if (tableName != null) {
 
-            String query = "DESC " + tableName + ";";
+            String query = "SELECT column_name FROM information_schema.columns " +
+                    "WHERE table_name='" + tableName + "';";
+            //"DESC " + tableName + ";";
             getTables(query, tablesCBox, simpleQueryVBox, Type.VALUES);
         }
 
@@ -130,7 +132,7 @@ public class QueryHandlerController implements Initializable {
      *
      * @param tables - the tables from the server.
      */
-    private void PopulateTablesNames(String tables) {
+    private void populateTablesNames(String tables) {
 
         String tablesNames[] = tables.split(",");
 
@@ -154,7 +156,7 @@ public class QueryHandlerController implements Initializable {
         //Clear items from VBox.
         this.tableColumnsVBox.getChildren().clear();
 
-        for (int i = 0; i < tableColumns.length; i += 6) {
+        for (int i = 0; i < tableColumns.length; i++) {
 
             CheckBox checkBox = new CheckBox(tableColumns[i]);
 
@@ -166,9 +168,9 @@ public class QueryHandlerController implements Initializable {
         }
 
         //Set elements to visible.
-        for (Node child : this.simpleQueryVBox.getChildren()){
+        for (Node child : this.simpleQueryVBox.getChildren()) {
 
-            if(!child.isVisible()){
+            if (!child.isVisible()) {
 
                 child.setVisible(true);
             }
@@ -368,7 +370,7 @@ public class QueryHandlerController implements Initializable {
                             break;
                         case TABLES:
                             response = server.showTablesRequest(query);
-                            PopulateTablesNames(response);
+                            populateTablesNames(response);
                         case VALUES:
                             response = server.showTablesRequest(query);
                             //createCheckBoxes(response, tableNumber);
@@ -376,12 +378,12 @@ public class QueryHandlerController implements Initializable {
                             response = server.showTablesRequest(query);
                         default:
                     }
-                    if (responseArea != null){
+                    if (responseArea != null) {
 
                         responseArea.clear();
 
                         //Check server response.
-                        if(isValidServerResponse(response)) {
+                        if (isValidServerResponse(response)) {
 
                             responseArea.appendText(response);
                         }
@@ -399,13 +401,12 @@ public class QueryHandlerController implements Initializable {
 
                         case TABLES:
                             response = server.showTablesRequest(query);
-                            PopulateTablesNames(response);
+                            populateTablesNames(response);
                             break;
 
                         case VALUES:
                             response = server.showTablesRequest(query);
                             createCheckBoxes(response);
-                            System.out.println(response);
                             break;
 
                         case SIMPLE:
@@ -414,7 +415,7 @@ public class QueryHandlerController implements Initializable {
                             this.queryResultTxtArea.clear();
 
                             //Check the server response.
-                            if(isValidServerResponse(response)) {
+                            if (isValidServerResponse(response)) {
 
                                 this.queryResultTxtArea.appendText(response);
                             }
@@ -428,12 +429,13 @@ public class QueryHandlerController implements Initializable {
 
     /**
      * Check if the server response is valid.
+     *
      * @param response Server response.
      * @return Is the response valid.
      */
-    boolean isValidServerResponse(String response){
+    private boolean isValidServerResponse(String response) {
 
-        if(response.contains("WRONG QUERY STRUCTURE")){
+        if (response.contains("WRONG QUERY STRUCTURE")) {
 
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
@@ -442,8 +444,7 @@ public class QueryHandlerController implements Initializable {
 
             alert.showAndWait();
             return false;
-        }
-        else if(response.contains("LOGICAL ERROR")){
+        } else if (response.contains("LOGICAL ERROR")) {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
