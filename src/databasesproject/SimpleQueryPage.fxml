@@ -7,64 +7,58 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="620.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="databasesproject.QueryHandlerController">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="databasesproject.QueryHandlerController">
     <children>
         <VBox fx:id="simpleQueryVBox" fillWidth="false">
             <children>
-                <Label text="Create a simple query" style="-fx-font-weight: bold;" textFill="#663399" underline="true">
+                <Label style="-fx-font-weight: bold;" text="Create a simple query" textFill="#663399" underline="true">
                     <VBox.margin>
-                        <Insets left="8.0" top="8.0"/>
+                        <Insets left="8.0" top="8.0" />
                     </VBox.margin>
                 </Label>
                 <ComboBox fx:id="tablesCBox" onAction="#describeTable" promptText="Choose a table">
                     <VBox.margin>
-                        <Insets left="8.0" top="8.0"/>
+                        <Insets left="8.0" top="8.0" />
                     </VBox.margin>
                 </ComboBox>
-                <Label fx:id="chooseColumnsLbl" text="Choose columns:" visible="false" style="-fx-font-weight: bold;"
-                       textFill="#663399" underline="true">
+                <Label fx:id="chooseColumnsLbl" style="-fx-font-weight: bold;" text="Choose columns:" textFill="#663399" underline="true" visible="false">
                     <VBox.margin>
-                        <Insets left="8.0" top="10.0"/>
+                        <Insets left="8.0" top="10.0" />
                     </VBox.margin>
                 </Label>
                 <ScrollPane fx:id="columnsScrollPane" style="-fx-background-color:transparent;" visible="false">
                     <content>
-                        <VBox fx:id="tableColumnsVBox" prefHeight="100.0" prefWidth="400.0"/>
+                        <VBox fx:id="tableColumnsVBox" prefHeight="100.0" prefWidth="400.0" />
                     </content>
                 </ScrollPane>
-                <Label fx:id="whereLbl" text="WHERE:" visible="false" style="-fx-font-weight: bold;" textFill="#663399"
-                       underline="true">
+                <Label fx:id="whereLbl" style="-fx-font-weight: bold;" text="WHERE:" textFill="#663399" underline="true" visible="false">
                     <VBox.margin>
-                        <Insets left="8.0" top="8.0"/>
+                        <Insets left="8.0" top="8.0" />
                     </VBox.margin>
                 </Label>
                 <TextArea fx:id="whereTxtArea" prefHeight="100.0" prefWidth="400.0" visible="false">
                     <VBox.margin>
-                        <Insets left="8.0"/>
+                        <Insets left="8.0" />
                     </VBox.margin>
                 </TextArea>
-                <Button fx:id="simpleQueryBtn" mnemonicParsing="false" onAction="#sendSimpleQuery" text="Submit query"
-                        visible="false" style="-fx-font-weight: bold; -fx-background-color: #6495ED;">
+                <Button fx:id="simpleQueryBtn" mnemonicParsing="false" onAction="#sendSimpleQuery" style="-fx-font-weight: bold; -fx-background-color: #6495ED;" text="Submit query" visible="false">
                     <VBox.margin>
-                        <Insets bottom="10.0" left="8.0" top="10.0"/>
+                        <Insets bottom="10.0" left="8.0" top="10.0" />
                     </VBox.margin>
                 </Button>
-                <Label fx:id="queryResultLbl" text="Query result:" visible="false" style="-fx-font-weight: bold;"
-                       textFill="#663399" underline="true">
+                <Label fx:id="queryResultLbl" style="-fx-font-weight: bold;" text="Query result:" textFill="#663399" underline="true" visible="false">
                     <VBox.margin>
-                        <Insets left="8.0"/>
+                        <Insets left="8.0" />
                     </VBox.margin>
                 </Label>
                 <TextArea fx:id="queryResultTxtArea" prefHeight="130.0" prefWidth="400.0" visible="false">
                     <VBox.margin>
-                        <Insets left="8.0"/>
+                        <Insets left="8.0" />
                     </VBox.margin>
                 </TextArea>
-                <Button mnemonicParsing="false" text="Back to home page" onAction="#backToHomePage"
-                        style="-fx-font-weight: bold; -fx-background-color: #ed9146;">
+                <Button mnemonicParsing="false" onAction="#backToHomePage" style="-fx-font-weight: bold; -fx-background-color: #ed9146;" text="Back to home page">
                     <VBox.margin>
-                        <Insets left="8.0" top="10.0"/>
+                        <Insets left="8.0" top="10.0" />
                     </VBox.margin>
                 </Button>
             </children>

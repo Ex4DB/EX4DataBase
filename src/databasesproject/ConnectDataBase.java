@@ -198,6 +198,15 @@ public class ConnectDataBase implements Server {
 
             // query returns data
             ResultSet rs = st.executeQuery(query);
+
+            if(query.startsWith("DESC")) {
+                String dataBaseArray = "";
+                while (rs.next()) {
+                    dataBaseArray += (rs.getString(1) + ',');
+                }
+                return dataBaseArray;
+            }
+
             StringBuilder strBuild = new StringBuilder();
             int columnsNumber = rs.getMetaData().getColumnCount();
 

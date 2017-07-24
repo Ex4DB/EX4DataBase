@@ -119,9 +119,8 @@ public class QueryHandlerController implements Initializable {
         //Check if selected value is not null.
         if (tableName != null) {
 
-            String query = "SELECT column_name FROM information_schema.columns " +
-                    "WHERE table_name='" + tableName + "';";
-            //"DESC " + tableName + ";";
+            String query = "DESC " + tableName + ";";
+
             getTables(query, tablesCBox, simpleQueryVBox, Type.VALUES);
         }
 
@@ -150,7 +149,6 @@ public class QueryHandlerController implements Initializable {
      * @param values List of values.
      */
     private void createCheckBoxes(String values) {
-
         String tableColumns[] = values.split(",");
 
         //Clear items from VBox.
