@@ -173,13 +173,6 @@ public class QueryHandlerController implements Initializable {
                 child.setVisible(true);
             }
         }
-       /* this.columnsScrollPane.setVisible(true);
-        this.chooseColumnsLbl.setVisible(true);
-        this.whereLbl.setVisible(true);
-        this.whereTxtArea.setVisible(true);
-        this.simpleQueryBtn.setVisible(true);
-        this.queryResultLbl.setVisible(true);
-        this.queryResultTxtArea.setVisible(true);*/
     }
 
     /**
@@ -211,9 +204,6 @@ public class QueryHandlerController implements Initializable {
         tableName = tablesCBox.getSelectionModel().getSelectedItem();
 
         select.append("FROM ").append(tableName);
-       /* for (String table : tables) {
-            select.append(table).append(" ");
-        }*/
 
         String where = " WHERE " + this.whereTxtArea.getText() + ";";
         String query = select + where;
